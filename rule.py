@@ -44,19 +44,19 @@ class Rule:
             else:
                 raise KeyError("Haven't matched")
 
-    def match(self, packet):
-        if not self.protocol.match(packet):
+    def match(self, _packet):
+        if not self.protocol.match(_packet):
             return False
-        if not self.srcIP.match(packet[IP].src):
+        if not self.srcIP.match(_packet[IP].src):
             return False
-        if not self.srcPort.match(packet[TCP].sport):
+        if not self.srcPort.match(_packet[TCP].sport):
             return False
-        if not self.dstIP.match(packet[IP].dst):
+        if not self.dstIP.match(_packet[IP].dst):
             return False
-        if not self.dstPort.match(packet[TCP].dport):
+        if not self.dstPort.match(_packet[TCP].dport):
             return False
         match_list = map(lambda x: x.match, self.options)
         match_result = []
         for f in match_list:
-            match_result.append(f(packet))
+            match_result.append(f(_packet))
         return all(match_result)

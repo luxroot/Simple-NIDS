@@ -14,5 +14,11 @@ class Port:
             else:
                 self.portList = [int(text)]
 
+    def __repr__(self):
+        if self.any:
+            return "Port of any"
+        else:
+            return "Port of "+str(list(self.portList))
+
     def match(self, port):
         return self.any or port in self.portList

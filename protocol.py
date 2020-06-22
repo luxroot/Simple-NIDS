@@ -14,6 +14,12 @@ class Protocol:
             self.any = False
         self.protocol = text
 
+    def __repr__(self):
+        if self.any:
+            return "Protocol of any"
+        else:
+            return "Protocol of "+self.protocol
+
     def match(self, packet):
         if self.any:
             return True
