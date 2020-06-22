@@ -1,7 +1,7 @@
 from netaddr import IPNetwork
 
 
-class IP:
+class IPNetwork:
     def __init__(self, text):
         if text == "any":
             self.any = True

@@ -1,4 +1,5 @@
 from scapy.all import *
+from scapy.layers.inet import UDP, TCP
 
 httpMethodList = ['HTTP', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH']
 

@@ -1,6 +1,7 @@
 from abc import abstractmethod
 
 from scapy.all import *
+from scapy.layers.inet import IP, TCP
 
 from tcpFlag import of_string
 

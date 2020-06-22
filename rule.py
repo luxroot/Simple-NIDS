@@ -1,4 +1,7 @@
-from ip import IP
+from scapy.layers.inet import IP, TCP
+
+from ipnetwork import IPNetwork
+from scapy.all import *
 from option import *
 from port import Port
 from protocol import Protocol
@@ -9,9 +12,9 @@ class Rule:
         words = text.split(' ', 7)
         options = words[-1].strip()[1:-1].split(';')
         self.protocol = Protocol(words[1])
-        self.srcIP = IP(words[2])
+        self.srcIP = IPNetwork(words[2])
         self.srcPort = Port(words[3])
-        self.dstIP = IP(words[5])
+        self.dstIP = IPNetwork(words[5])
         self.dstPort = Port(words[6])
         self.options = []
 
