@@ -39,11 +39,21 @@ class Rule:
             elif option_type == 'content':
                 self.options.append(Content(data[1:-1]))
             else:
-                raise KeyError(f"{option_type} haven't matched")
+                raise KeyError("Haven't matched")
 
     def match(self, packet):
-        match_list = [self.protocol, self.srcIP, self.srcPort, self.dstIP, self.dstPort]
-        match_list.extend(self.options)
-        match_list = map(lambda x: x.match, match_list)
-        match_result = map(match_list, [packet] * len(packet))
+        if not self.protocol.match(packet):
+            return False
+        if not self.srcIP.match(packet[IP].src):
+            return False
+        if not self.srcPort.match(packet[TCP].sport):
+            return False
+        if not self.dstIP.match(packet[IP].dst):
+            return False
+        if not self.dstPort.match(packet[TCP].dport):
+            return False
+        match_list = map(lambda x: x.match, self.options)
+        match_result = []
+        for f in match_list:
+            match_result.append(f(packet))
         return all(match_result)

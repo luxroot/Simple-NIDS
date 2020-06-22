@@ -1,5 +1,8 @@
 from abc import abstractmethod
-from tcpFlag import Flag, of_string
+
+from scapy.all import *
+
+from tcpFlag import of_string
 
 
 class Option:
