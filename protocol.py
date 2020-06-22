@@ -1,4 +1,7 @@
-class Protocol():
+from scapy.all import *
+
+
+class Protocol:
     def __init__(self, text):
         if text not in ['tcp', 'udp', 'http', 'any']:
             raise ValueError
@@ -11,4 +14,9 @@ class Protocol():
     def match(self, packet):
         if self.any:
             return True
-
+        if self.protocol == "udp" and UDP in packet:
+            return True
+        if self.protocol == "tcp" and TCP in packet:
+            return True
+        if self.protocol == "http" and TCP in packet:
+            packet.
