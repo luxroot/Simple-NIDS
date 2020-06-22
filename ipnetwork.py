@@ -1,4 +1,4 @@
-from netaddr import IPNetwork
+from netaddr import IPNetwork as IPN
 
 
 class IPNetwork:
@@ -7,7 +7,7 @@ class IPNetwork:
             self.any = True
         else:
             self.any = False
-            self.ipn = IPNetwork(text)
+            self.ipn = IPN(text)
 
     def match(self, ip):
         return self.any or ip in self.ipn

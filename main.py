@@ -7,7 +7,6 @@ from ruleMaker import RuleMaker
 rm = RuleMaker(sys.argv[1])
 rules = rm.getRules()
 
-conf.ipv6_enabled = False
 
 
 def isMatched(packet, rules):
@@ -17,4 +16,5 @@ def isMatched(packet, rules):
             break
 
 
-sniff(prn=lambda x: isMatched(x, rules), iface='lo', filter="tcp or udp")
+# sniff(prn=lambda x: isMatched(x, rules), iface='lo', filter="tcp or udp")
+sniff(prn=lambda x: x.display(), iface='lo', filter="tcp or udp")
