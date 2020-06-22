@@ -1,5 +1,7 @@
 from scapy.all import *
 
+httpMethodList = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH']
+
 
 class Protocol:
     def __init__(self, text):
@@ -19,4 +21,7 @@ class Protocol:
         if self.protocol == "tcp" and TCP in packet:
             return True
         if self.protocol == "http" and TCP in packet:
-            packet.
+            content = packet.tcp.payload.load.decode()
+            if any(map(lambda x: content.startwith(x), httpMethodList)):
+                return True
+        return False
