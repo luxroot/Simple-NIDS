@@ -5,7 +5,7 @@ from scapy.all import *
 from ruleMaker import RuleMaker
 
 rm = RuleMaker(sys.argv[1])
-rules = rm.getRules()
+rules = rm.get_rules()
 
 
 def is_matched(_packet, _rules):

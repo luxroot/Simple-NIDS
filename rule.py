@@ -4,7 +4,7 @@ from ipnetwork import IPNetwork
 from scapy.all import *
 from option import *
 from port import Port
-from protocol import Protocol
+from protocol import Protocol, is_http
 
 long_flags = dict(F='FIN', S='SYN', R='RST', P='PSH', A='ACK', U='URG', E='ECE', C='CWR')
 
@@ -55,6 +55,7 @@ class Rule:
                 self.options.append(HttpRequest(data[1:-1]))
             elif option_type == 'content':
                 self.options.append(Content(data[1:-1]))
+                self.content = Content(data)
             else:
                 raise KeyError("Haven't matched")
 
@@ -140,4 +141,22 @@ class Rule:
                 val += red(f"Flags: {packet_flags}\n")
             else:
                 val += f"Flags: {packet_flags}\n"
+
+            val += "\n[TCP payload]\n"
+            if is_http(pkt):
+                payload = pkt[TCP].load.decode()
+                http_method = payload.split(' ', 1)[0]
+
+                if check_option(self.options, pkt, HttpRequest):
+                    val += red(f"HTTP Request: {http_method}\n")
+                else:
+                    val += f"HTTP Request: {http_method}\n"
+
+                if check_option(self.options, pkt, Content):
+                    val += red(f"Payload: {payload.replace(self.content, red(self.content))}\n")
+                else:
+                    val += f"Payload: {payload}\n"
+
+        val += "=====================\n"
+        val += f"Message: {self.message}"
         return val
