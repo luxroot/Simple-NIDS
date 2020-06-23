@@ -46,11 +46,12 @@ class Rule:
 
     def __repr__(self):
         repr_string = f"Protocol {self.protocol}\n"
-        repr_string += f"Source IP {self.srcIP} Port {self.srcPort}\n"
-        repr_string += f"Destination IP {self.dstIP} Port {self.dstIP}\n"
+        repr_string += f"Source {self.srcIP} {self.srcPort}\n"
+        repr_string += f"Destination {self.dstIP} {self.dstPort}\n"
+        repr_string += f"Message : {self.message}\n"
         repr_string += f"{len(self.options)} options --\n"
         for r in self.options:
-            repr_string += r.__repr__()
+            repr_string += r.__repr__() + '\n'
         return repr_string
 
 
