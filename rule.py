@@ -171,5 +171,5 @@ class Rule:
                 val += f"Destination Port: {pkt[UDP].dport}\n"
 
         val += "=====================\n"
-        val += f"Message: {self.message}"
+        val += f"Message: {self.message}\n"
         return val
