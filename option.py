@@ -15,6 +15,10 @@ class Option:
 class Tos(Option):
     def __init__(self, text):
         self.tos = int(text)
+        self.text = text
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' ' + self.text
 
     def match(self, _packet):
         return self.tos == _packet[IP].tos
@@ -23,6 +27,10 @@ class Tos(Option):
 class Len(Option):
     def __init__(self, text):
         self.len = int(text)
+        self.text = text
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' ' + self.text
 
     def match(self, _packet):
         return self.len == _packet[IP].ihl
@@ -31,6 +39,10 @@ class Len(Option):
 class Offset(Option):
     def __init__(self, text):
         self.offset = int(text)
+        self.text = text
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' ' + self.text
 
     def match(self, _packet):
         return self.offset == _packet[IP].frag
@@ -39,6 +51,10 @@ class Offset(Option):
 class Seq(Option):
     def __init__(self, text):
         self.seq = int(text)
+        self.text = text
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' ' + self.text
 
     def match(self, _packet):
         return self.seq == _packet[TCP].seq
@@ -47,6 +63,10 @@ class Seq(Option):
 class Ack(Option):
     def __init__(self, text):
         self.ack = int(text)
+        self.text = text
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' ' + self.text
 
     def match(self, _packet):
         return self.ack == _packet[TCP].ack
@@ -55,6 +75,10 @@ class Ack(Option):
 class Flags(Option):
     def __init__(self, text):
         self.flags = of_string(text)
+        self.text = text
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' ' + self.text
 
     def match(self, _packet):
         return self.flags == (self.flags & _packet[TCP].flags)
@@ -63,6 +87,10 @@ class Flags(Option):
 class HttpRequest(Option):
     def __init__(self, text):
         self.httpRequest = text
+        self.text = text
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' ' + self.text
 
     def match(self, _packet):
         return _packet[TCP].payload.load.decode().startswith(self.httpRequest)
@@ -71,6 +99,10 @@ class HttpRequest(Option):
 class Content(Option):
     def __init__(self, text):
         self.content = text
+        self.text = text
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' ' + self.text
 
     def match(self, _packet):
         return self.content in _packet.payload.payload.load.decode()

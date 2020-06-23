@@ -44,6 +44,16 @@ class Rule:
             else:
                 raise KeyError("Haven't matched")
 
+    def __repr__(self):
+        repr_string = f"Protocol {self.protocol}\n"
+        repr_string += f"Source IP {self.srcIP} Port {self.srcPort}\n"
+        repr_string += f"Destination IP {self.dstIP} Port {self.dstIP}\n"
+        repr_string += f"{len(self.options)} options --\n"
+        for r in self.options:
+            repr_string += r.__repr__()
+        return repr_string
+
+
     def match(self, _packet):
         if not self.protocol.match(_packet):
             return False
