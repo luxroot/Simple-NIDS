@@ -7,6 +7,17 @@ from port import Port
 from protocol import Protocol
 
 
+def red(x):
+    return '\033[91m' + x + '\033[0m'
+
+
+def check_option(options, pkt, cls):
+    for ist in options:
+        if isinstance(cls, ist) and ist.match(pkt):
+            return True
+    return False
+
+
 class Rule:
     def __init__(self, text):
         self.text = text
@@ -76,3 +87,29 @@ class Rule:
         for f in match_list:
             match_result.append(f(_packet))
         return all(match_result)
+
+    def get_formatted(self, pkt):
+        val = f"Rule: {self.text}\n"
+        val += "=====================\n"
+        val += "[IP header]\n"
+        val += f"Version: {pkt[IP].version}\n"
+        if check_option(self.options, pkt, Len):
+            val += red(f"Header Length: {pkt[IP].ihl * 4} bytes\n")
+        else:
+            val += f"Header Length: {pkt[IP].ihl * 4} bytes\n"
+        if check_option(self.options, pkt, Tos):
+            val += red(f"ToS: {hex(pkt[IP].tos)}\n")
+        else:
+            val += f"ToS: {hex(pkt[IP].tos)}\n"
+        if check_option(self.options, pkt, Offset):
+            val += red(f"Fragment Offset: {pkt[IP].frag}\n")
+        else:
+            val += f"Fragment Offset: {pkt[IP].frag}\n"
+        if not self.srcIP.any and self.srcIP.match(pkt[IP].src):
+            val += red(f"Source: {pkt[IP].src}\n")
+        else:
+            val += f"Source: {pkt[IP].src}\n"
+        if not self.dstIP.any and self.dstIP.match(pkt[IP].dst):
+            val += red(f"Destination: {pkt[IP].dst}\n")
+        else:
+            val += f"Destination: {pkt[IP].dst}\n"

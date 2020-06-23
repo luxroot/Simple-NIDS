@@ -8,13 +8,12 @@ rm = RuleMaker(sys.argv[1])
 rules = rm.getRules()
 
 
-def isMatched(packet, rules):
-    for i, v in enumerate(rules):
-        if v.match(packet):
-            print(i)
-            print(str(v))
+def is_matched(_packet, _rules):
+    for v in _rules:
+        if v.match(_packet):
+            print(v.get_formatted(_packet))
             break
 
 
-sniff(prn=lambda x: isMatched(x, rules), filter="tcp or udp")
+sniff(prn=lambda x: is_matched(x, rules), filter="tcp or udp")
 # sniff(prn=lambda x: x.display(), filter="tcp or udp")

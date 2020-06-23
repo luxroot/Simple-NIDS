@@ -33,7 +33,7 @@ class Len(Option):
         self.len = int(text)
 
     def match(self, _packet):
-        return self.len == _packet[IP].ihl*4
+        return self.len == _packet[IP].ihl * 4
 
 
 class Offset(Option):
