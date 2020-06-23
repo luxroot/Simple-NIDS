@@ -13,7 +13,7 @@ def red(x):
 
 def check_option(options, pkt, cls):
     for ist in options:
-        if isinstance(cls, ist) and ist.match(pkt):
+        if isinstance(ist, cls) and ist.match(pkt):
             return True
     return False
 
@@ -113,3 +113,4 @@ class Rule:
             val += red(f"Destination: {pkt[IP].dst}\n")
         else:
             val += f"Destination: {pkt[IP].dst}\n"
+        return val

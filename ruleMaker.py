@@ -6,7 +6,7 @@ class RuleMaker:
         self.rules = []
         with open(filePath, 'r') as f:
             while True:
-                line = f.readline()
+                line = f.readline().strip()
                 if not line:
                     break
                 self.rules.append(Rule(line))
