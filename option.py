@@ -42,7 +42,6 @@ class Offset(Option):
         self.offset = int(text)
 
     def match(self, _packet):
-        print("Hey~~~")
         _packet.display()
         return self.offset == _packet[IP].frag
 
