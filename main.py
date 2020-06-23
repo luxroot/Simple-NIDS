@@ -10,6 +10,7 @@ rules = rm.getRules()
 
 
 def isMatched(packet, rules):
+    packet.display()
     for i, v in enumerate(rules):
         if v.match(packet):
             print(i)
