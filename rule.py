@@ -59,6 +59,8 @@ class Rule:
         return self.text
 
     def match(self, _packet):
+        if IP not in _packet:
+            return False
         if not self.protocol.match(_packet):
             return False
         if not self.srcIP.match(_packet[IP].src):
