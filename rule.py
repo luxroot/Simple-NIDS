@@ -1,4 +1,4 @@
-from scapy.layers.inet import IP, TCP
+from scapy.layers.inet import IP, TCP, UDP
 
 from ipnetwork import IPNetwork
 from scapy.all import *
@@ -158,6 +158,17 @@ class Rule:
                 val += f"{red('Payload:')} {payload.replace(self.content, red(self.content))}\n"
             else:
                 val += f"Payload: {payload}\n"
+
+        if UDP in pkt:
+            val += "[UDP header]\n"
+            if not self.srcPort.any and self.srcPort.match(pkt[UDP].sport):
+                val += red(f"Source Port: {pkt[UDP].sport}\n")
+            else:
+                val += f"Source Port: {pkt[UDP].sport}\n"
+            if not self.dstPort.any and self.dstPort.match(pkt[UDP].dport):
+                val += red(f"Destination Port: {pkt[UDP].dport}\n")
+            else:
+                val += f"Destination Port: {pkt[UDP].dport}\n"
 
         val += "=====================\n"
         val += f"Message: {self.message}"
