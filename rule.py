@@ -55,7 +55,7 @@ class Rule:
                 self.options.append(HttpRequest(data[1:-1]))
             elif option_type == 'content':
                 self.options.append(Content(data[1:-1]))
-                self.content = data
+                self.content = data[1:-1]
             else:
                 raise KeyError("Haven't matched")
 
@@ -155,7 +155,7 @@ class Rule:
                     val += f"HTTP Request: {http_method}\n"
 
             if check_option(self.options, pkt, Content):
-                val += f"Payload: {payload.replace(self.content, red(self.content))}\n"
+                val += f"{red('Payload:')} {payload.replace(self.content, red(self.content))}\n"
             else:
                 val += f"Payload: {payload}\n"
 
