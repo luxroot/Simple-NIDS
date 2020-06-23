@@ -33,7 +33,7 @@ class Len(Option):
         self.len = int(text)
 
     def match(self, _packet):
-        return self.len == _packet[IP].ihl
+        return self.len == _packet[IP].ihl*4
 
 
 class Offset(Option):
@@ -42,6 +42,8 @@ class Offset(Option):
         self.offset = int(text)
 
     def match(self, _packet):
+        print("Hey~~~")
+        _packet.display()
         return self.offset == _packet[IP].frag
 
 
@@ -78,7 +80,7 @@ class HttpRequest(Option):
         self.httpRequest = text
 
     def match(self, _packet):
-        return _packet[TCP].payload.load.decode().startswith(self.httpRequest)
+        return _packet[IP].payload.payload.load.decode().startswith(self.httpRequest)
 
 
 class Content(Option):
@@ -87,4 +89,4 @@ class Content(Option):
         self.content = text
 
     def match(self, _packet):
-        return self.content in _packet.payload.payload.load.decode()
+        return self.content in raw(_packet[IP].payload.payload).decode()

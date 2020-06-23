@@ -30,7 +30,6 @@ class Protocol:
         if self.protocol == "http" and TCP in packet:
             if len(packet[TCP].payload) == 0:
                 return False
-            print(packet[TCP].load)
             content = packet[TCP].load
             if content and any(map(lambda x: content.startswith(x), httpMethodList)):
                 return True

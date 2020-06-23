@@ -56,6 +56,7 @@ class Rule:
 
 
     def match(self, _packet):
+        print("match called")
         if not self.protocol.match(_packet):
             return False
         if not self.srcIP.match(_packet[IP].src):
@@ -68,6 +69,9 @@ class Rule:
             return False
         match_list = map(lambda x: x.match, self.options)
         match_result = []
+        print("~~~~~~~~~~~~~~~~~")
+        print(list(match_list))
+        print("----------------")
         for f in match_list:
             match_result.append(f(_packet))
         return all(match_result)

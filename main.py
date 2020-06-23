@@ -8,13 +8,14 @@ rm = RuleMaker(sys.argv[1])
 rules = rm.getRules()
 
 
-
 def isMatched(packet, rules):
     packet.display()
     for i, v in enumerate(rules):
+        print(v)
         if v.match(packet):
             print(i)
-            print(v)
+            print(str(v))
+ #           print(v)
             break
 
 
