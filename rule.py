@@ -55,7 +55,7 @@ class Rule:
                 self.options.append(HttpRequest(data[1:-1]))
             elif option_type == 'content':
                 self.options.append(Content(data[1:-1]))
-                self.content = Content(data)
+                self.content = data
             else:
                 raise KeyError("Haven't matched")
 
@@ -142,7 +142,8 @@ class Rule:
             else:
                 val += f"Flags: {packet_flags}\n"
 
-            val += "\n[TCP payload]\n"
+            if len(pkt[TCP].payload) != 0:
+                val += "\n[TCP payload]\n"
             if is_http(pkt):
                 payload = pkt[TCP].load.decode()
                 http_method = payload.split(' ', 1)[0]
