@@ -1,5 +1,6 @@
 class Port:
     def __init__(self, text):
+        self.text = text
         if text == "any":
             self.any = True
         else:
@@ -18,7 +19,7 @@ class Port:
         if self.any:
             return "Port of any"
         else:
-            return "Port of "+str(list(self.portList))
+            return "Port of "+self.text
 
     def match(self, port):
         return self.any or port in self.portList
