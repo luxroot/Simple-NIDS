@@ -21,8 +21,9 @@ def check_option(options, pkt, cls):
 
 
 class Rule:
-    def __init__(self, text):
+    def __init__(self, text, empty=False):
         self.text = text
+        self.empty = empty
         words = text.split(' ', 7)
         options = words[-1].strip()[1:-1].split(';')
         self.protocol = Protocol(words[1])
@@ -94,7 +95,10 @@ class Rule:
     def get_formatted(self, pkt):
         if IP not in pkt:
             return ''
-        val = f"Rule: {self.text}\n"
+        if not self.empty:
+            val = f"Rule: {self.text}\n"
+        else:
+            val = "No rules matched!\n"
         val += "=====================\n"
         val += "[IP header]\n"
         val += f"Version: {pkt[IP].version}\n"
@@ -173,5 +177,7 @@ class Rule:
                 val += f"Destination Port: {pkt[UDP].dport}\n"
 
         val += "=====================\n"
-        val += f"Message: {self.message}\n"
+
+        if not self.empty:
+            val += f"Message: {self.message}\n"
         return val
