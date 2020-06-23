@@ -146,7 +146,7 @@ class Rule:
 
             if len(pkt[TCP].payload) != 0:
                 val += "\n[TCP payload]\n"
-                payload = pkt[TCP].load.decode()
+                payload = pkt[TCP].load.decode('utf-8', 'backslashreplace')
 
                 if is_http(pkt):
                     http_method = payload.split(' ', 1)[0]
