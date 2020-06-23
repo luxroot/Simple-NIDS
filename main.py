@@ -6,7 +6,7 @@ from ruleMaker import RuleMaker
 
 rm = RuleMaker(sys.argv[1])
 rules = rm.get_rules()
-emptyRule = Rule('alert any any any -> any any (msg:"No rules matched";)')
+emptyRule = Rule('alert any any any -> any any (msg:"No rules matched";)', empty=True)
 
 
 def is_matched(_packet, _rules):

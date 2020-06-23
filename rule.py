@@ -13,6 +13,10 @@ def red(x):
     return '\033[91m' + x + '\033[0m'
 
 
+def blue(x):
+    return '\033[94m' + x + '\033[0m'
+
+
 def check_option(options, pkt, cls):
     for ist in options:
         if isinstance(ist, cls) and ist.match(pkt):
@@ -177,7 +181,6 @@ class Rule:
                 val += f"Destination Port: {pkt[UDP].dport}\n"
 
         val += "=====================\n"
-
         if not self.empty:
-            val += f"Message: {self.message}\n"
+            val += f"Message: {blue(self.message)}\n"
         return val
