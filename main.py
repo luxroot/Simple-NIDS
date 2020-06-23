@@ -13,8 +13,9 @@ def isMatched(packet, rules):
     for i, v in enumerate(rules):
         if v.match(packet):
             print(i)
+            print(v)
             break
 
 
-# sniff(prn=lambda x: isMatched(x, rules), iface='lo', filter="tcp or udp")
-sniff(prn=lambda x: x.display(), iface='lo', filter="tcp or udp")
+sniff(prn=lambda x: isMatched(x, rules), filter="tcp or udp")
+# sniff(prn=lambda x: x.display(), filter="tcp or udp")

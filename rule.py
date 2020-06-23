@@ -49,11 +49,11 @@ class Rule:
             return False
         if not self.srcIP.match(_packet[IP].src):
             return False
-        if not self.srcPort.match(_packet[TCP].sport):
+        if not self.srcPort.match(_packet[IP].payload.sport):
             return False
         if not self.dstIP.match(_packet[IP].dst):
             return False
-        if not self.dstPort.match(_packet[TCP].dport):
+        if not self.dstPort.match(_packet[IP].payload.dport):
             return False
         match_list = map(lambda x: x.match, self.options)
         match_result = []

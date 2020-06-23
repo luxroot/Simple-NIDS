@@ -1,7 +1,7 @@
 from scapy.all import *
 from scapy.layers.inet import TCP, UDP
 
-httpMethodList = ['HTTP', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH']
+httpMethodList = [b'HTTP', b'GET', b'HEAD', b'POST', b'PUT', b'DELETE', b'CONNECT', b'OPTIONS', b'TRACE', b'PATCH']
 
 
 class Protocol:
@@ -28,7 +28,10 @@ class Protocol:
         if self.protocol == "tcp" and TCP in packet:
             return True
         if self.protocol == "http" and TCP in packet:
-            content = packet[TCP].load.decode()
-            if any(map(lambda x: content.startwith(x), httpMethodList)):
+            if len(packet[TCP].payload) == 0:
+                return False
+            print(packet[TCP].load)
+            content = packet[TCP].load
+            if content and any(map(lambda x: content.startswith(x), httpMethodList)):
                 return True
         return False
