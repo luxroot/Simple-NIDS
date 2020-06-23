@@ -78,7 +78,7 @@ class HttpRequest(Option):
         self.httpRequest = text
 
     def match(self, _packet):
-        return _packet[IP].payload.payload.load.decode().startswith(self.httpRequest)
+        return _packet[IP].payload.payload.load.decode('utf-8', 'backslashreplace').startswith(self.httpRequest)
 
 
 class Content(Option):
@@ -87,4 +87,4 @@ class Content(Option):
         self.content = text
 
     def match(self, _packet):
-        return self.content in raw(_packet[IP].payload.payload).decode()
+        return self.content in raw(_packet[IP].payload.payload).decode('utf-8', 'backslashreplace')
