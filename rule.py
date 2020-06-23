@@ -92,6 +92,8 @@ class Rule:
         return all(match_result)
 
     def get_formatted(self, pkt):
+        if IP not in pkt:
+            return ''
         val = f"Rule: {self.text}\n"
         val += "=====================\n"
         val += "[IP header]\n"
@@ -144,20 +146,20 @@ class Rule:
 
             if len(pkt[TCP].payload) != 0:
                 val += "\n[TCP payload]\n"
-            payload = pkt[TCP].load.decode()
+                payload = pkt[TCP].load.decode()
 
-            if is_http(pkt):
-                http_method = payload.split(' ', 1)[0]
+                if is_http(pkt):
+                    http_method = payload.split(' ', 1)[0]
 
-                if check_option(self.options, pkt, HttpRequest):
-                    val += red(f"HTTP Request: {http_method}\n")
+                    if check_option(self.options, pkt, HttpRequest):
+                        val += red(f"HTTP Request: {http_method}\n")
+                    else:
+                        val += f"HTTP Request: {http_method}\n"
+
+                if check_option(self.options, pkt, Content):
+                    val += f"{red('Payload:')} {payload.replace(self.content, red(self.content))}\n"
                 else:
-                    val += f"HTTP Request: {http_method}\n"
-
-            if check_option(self.options, pkt, Content):
-                val += f"{red('Payload:')} {payload.replace(self.content, red(self.content))}\n"
-            else:
-                val += f"Payload: {payload}\n"
+                    val += f"Payload: {payload}\n"
 
         if UDP in pkt:
             val += "[UDP header]\n"
