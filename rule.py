@@ -144,8 +144,9 @@ class Rule:
 
             if len(pkt[TCP].payload) != 0:
                 val += "\n[TCP payload]\n"
+            payload = pkt[TCP].load.decode()
+
             if is_http(pkt):
-                payload = pkt[TCP].load.decode()
                 http_method = payload.split(' ', 1)[0]
 
                 if check_option(self.options, pkt, HttpRequest):
@@ -153,10 +154,10 @@ class Rule:
                 else:
                     val += f"HTTP Request: {http_method}\n"
 
-                if check_option(self.options, pkt, Content):
-                    val += red(f"Payload: {payload.replace(self.content, red(self.content))}\n")
-                else:
-                    val += f"Payload: {payload}\n"
+            if check_option(self.options, pkt, Content):
+                val += red(f"Payload: {payload.replace(self.content, red(self.content))}\n")
+            else:
+                val += f"Payload: {payload}\n"
 
         val += "=====================\n"
         val += f"Message: {self.message}"
