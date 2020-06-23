@@ -155,7 +155,7 @@ class Rule:
                     val += f"HTTP Request: {http_method}\n"
 
             if check_option(self.options, pkt, Content):
-                val += red(f"Payload: {payload.replace(self.content, red(self.content))}\n")
+                val += f"Payload: {payload.replace(self.content, red(self.content))}\n"
             else:
                 val += f"Payload: {payload}\n"
 
