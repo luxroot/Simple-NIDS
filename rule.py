@@ -6,6 +6,8 @@ from option import *
 from port import Port
 from protocol import Protocol
 
+long_flags = dict(F='FIN', S='SYN', R='RST', P='PSH', A='ACK', U='URG', E='ECE', C='CWR')
+
 
 def red(x):
     return '\033[91m' + x + '\033[0m'
@@ -113,4 +115,29 @@ class Rule:
             val += red(f"Destination: {pkt[IP].dst}\n")
         else:
             val += f"Destination: {pkt[IP].dst}\n"
+        val += '\n'
+
+        if TCP in pkt:
+            val += "[TCP header]\n"
+            if not self.srcPort.any and self.srcPort.match(pkt[TCP].sport):
+                val += red(f"Source Port: {pkt[TCP].sport}\n")
+            else:
+                val += f"Source Port: {pkt[TCP].sport}\n"
+            if not self.dstPort.any and self.dstPort.match(pkt[TCP].dport):
+                val += red(f"Destination Port: {pkt[TCP].dport}\n")
+            else:
+                val += f"Destination Port: {pkt[TCP].dport}\n"
+            if check_option(self.options, pkt, Seq):
+                val += red(f"Sequence Number: {pkt[TCP].seq}\n")
+            else:
+                val += f"Sequence Number: {pkt[TCP].seq}\n"
+            if check_option(self.options, pkt, Ack):
+                val += red(f"Acknowledgement Number: {pkt[TCP].ack}\n")
+            else:
+                val += f"Acknowledgement Number: {pkt[TCP].ack}\n"
+            packet_flags = ', '.join([long_flags[x] for x in pkt.sprintf('%TCP.flags%')])
+            if check_option(self.options, pkt, Flags):
+                val += red(f"Flags: {packet_flags}\n")
+            else:
+                val += f"Flags: {packet_flags}\n"
         return val
